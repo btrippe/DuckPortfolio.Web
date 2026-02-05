@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/DuckPortfolio.Web.props" />
+</Project>
