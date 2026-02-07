@@ -1,37 +1,63 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">DuckPortfolio.Web</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+<nav class="tree-nav">
+    <h2 class="tree-title">Portfolio</h2>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
+    <ul class="tree-list">
+        <li class="tree-section">
+            <button class="section-toggle" @onclick='() => Toggle("portfolio")' aria-expanded='@(IsOpen("portfolio").ToString().ToLowerInvariant())'>
+                <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="section-label">Web Development</span>
+            </button>
+            <ul class="section-list" style='display:@(IsOpen("portfolio") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/portfolio/overview">Overview</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/portfolio/stack">Frontend</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/portfolio/arch">Backend</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/portfolio/tradeoffs">Architecture</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/portfolio/lessons">APIs</NavLink></li>
+            </ul>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
+
+        <li class="tree-section">
+            <button class="section-toggle" @onclick='() => Toggle("blazor")' aria-expanded='@(IsOpen("blazor").ToString().ToLowerInvariant())'>
+                <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="section-label">Game Development</span>
+            </button>
+            <ul class="section-list" style='display:@(IsOpen("blazor") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/blazor-app/overview">Synopsis</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/blazor-app/ui">Published Games</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/blazor-app/data">Utilized Assets</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/blazor-app/azure">Azure</NavLink></li>
+            </ul>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
+
+        <li class="tree-section">
+            <button class="section-toggle" @onclick='() => Toggle("unity")' aria-expanded='@(IsOpen("unity").ToString().ToLowerInvariant())'>
+                <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="section-label">Creative Writing</span>
+            </button>
+            <ul class="section-list" style='display:@(IsOpen("unity") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/writing/design">Synopsis</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/writing/design">Flameheart</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/writing/systems">Tristar Chronicles</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/writing/perf">Not Able</NavLink></li>
+            </ul>
         </li>
     </ul>
-</div>
+
+    <div class="nav-divider"></div>
+
+    <ul class="tree-list">
+        <li><NavLink class="nav-item" href="/ai-disclaimer">AI & My Work</NavLink></li>
+    </ul>
+</nav>
 
 @code {
-    private bool collapseNavMenu = true;
+    private readonly System.Collections.Generic.HashSet<string> _open = new();
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private void Toggle(string key)
     {
-        collapseNavMenu = !collapseNavMenu;
+        if (_open.Contains(key)) _open.Remove(key);
+        else _open.Add(key);
     }
+
+    private bool IsOpen(string key) => _open.Contains(key);
 }

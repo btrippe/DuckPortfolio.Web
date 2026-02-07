@@ -38,6 +38,66 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/BlazorApp/Azure.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvQmxhem9yQXBwL0F6dXJlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/BlazorApp/Data.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvQmxhem9yQXBwL0RhdGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/BlazorApp/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvQmxhem9yQXBwL0luZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/BlazorApp/Overview.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvQmxhem9yQXBwL092ZXJ2aWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/BlazorApp/UI.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvQmxhem9yQXBwL1VJLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Arch.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL0FyY2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL0luZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Lessons.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL0xlc3NvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Overview.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL092ZXJ2aWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Stack.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL1N0YWNrLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/Portfolio/Tradeoffs.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvUG9ydGZvbGlvL1RyYWRlb2Zmcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/UnityGame/Design.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvVW5pdHlHYW1lL0Rlc2lnbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/UnityGame/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvVW5pdHlHYW1lL0luZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/UnityGame/Perf.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvVW5pdHlHYW1lL1BlcmYucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Projects/UnityGame/Systems.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvamVjdHMvVW5pdHlHYW1lL1N5c3RlbXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -45,6 +105,18 @@ build_metadata.AdditionalFiles.CssScope =
 [/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/AIDisclaimer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQUlEaXNjbGFpbWVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-03owbo2iyo
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Contact.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-f35owbd6k2
+
+[/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Pages/Resume.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzdW1lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-50lbxofkvu
 
 [/Users/btrippe/Documents/DuckPortfolio/DuckPortfolio.Web/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=

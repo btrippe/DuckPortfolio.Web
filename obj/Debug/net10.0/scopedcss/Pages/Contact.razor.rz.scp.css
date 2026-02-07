@@ -1,0 +1,127 @@
+.contact[b-f35owbd6k2] {
+    --accent: #7aa2ff;
+    padding: 1.25rem 1rem 2rem 1rem;
+    color: #e6eef8;
+}
+
+.contact-header[b-f35owbd6k2] {
+    margin-bottom: 1.8rem;
+}
+
+.contact-header h1[b-f35owbd6k2] {
+    margin: 0 0 0.2rem 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.contact-header .tagline[b-f35owbd6k2] {
+    margin: 0;
+    color: rgba(230, 238, 248, 0.8);
+    font-size: 1.05rem;
+}
+
+.contact-info[b-f35owbd6k2] {
+    display: grid;
+    gap: 2rem;
+}
+
+.info-group[b-f35owbd6k2] {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-group h3[b-f35owbd6k2] {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: inline-block;
+    padding-right: 0.75rem;
+    position: relative;
+}
+
+.info-group h3[b-f35owbd6k2]::after {
+    content: '';
+    display: inline-block;
+    width: 36px;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.95;
+    margin-left: 0.65rem;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+.info-item[b-f35owbd6k2] {
+    margin: 1rem 0;
+}
+
+.info-item strong[b-f35owbd6k2] {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.info-item p[b-f35owbd6k2] {
+    margin: 0;
+    color: rgba(230, 238, 248, 0.9);
+}
+
+.email-link[b-f35owbd6k2],
+.phone-link[b-f35owbd6k2] {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 150ms ease;
+}
+
+.email-link:hover[b-f35owbd6k2],
+.phone-link:hover[b-f35owbd6k2] {
+    background: rgba(122, 162, 255, 0.1);
+    text-decoration: underline;
+}
+
+.cta-section[b-f35owbd6k2] {
+    display: flex;
+    gap: 1rem;
+}
+
+.email-btn[b-f35owbd6k2] {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background: var(--accent);
+    color: #0e1418;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.email-btn:hover[b-f35owbd6k2] {
+    background: #5d7dd4;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+    .contact[b-f35owbd6k2] {
+        padding: 1rem;
+    }
+
+    .contact-header h1[b-f35owbd6k2] {
+        font-size: 1.45rem;
+    }
+
+    .cta-section[b-f35owbd6k2] {
+        flex-direction: column;
+    }
+
+    .email-btn[b-f35owbd6k2] {
+        width: 100%;
+        text-align: center;
+    }
+}

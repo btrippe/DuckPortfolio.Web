@@ -1,17 +1,20 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<div class="terminal-shell">
+    <header class="terminal-header">
+        <NavLink class="header-link brand-link" href="/" Match="NavLinkMatch.All">Brandon Trippe</NavLink>
+        <NavLink class="header-link" href="/blog">Blog</NavLink>
+        <NavLink class="header-link" href="/resume">Resume</NavLink>
+        <NavLink class="header-link" href="/contact">Contact</NavLink>
+    </header>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+    <div class="terminal-content">
+        <aside class="terminal-nav">
+            <NavMenu />
+        </aside>
 
-        <div class="content px-4">
+        <main class="terminal-main">
             @Body
-        </div>
+        </main>
     </div>
 </div>

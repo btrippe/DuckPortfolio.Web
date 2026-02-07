@@ -1,0 +1,71 @@
+.ai-disclaimer {
+    --accent: #7aa2ff;
+    padding: 1.25rem 1rem 2rem 1rem;
+    color: #e6eef8;
+}
+
+.disclaimer-header {
+    margin-bottom: 2rem;
+}
+
+.disclaimer-header h1 {
+    margin: 0 0 0.2rem 0;   
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.disclaimer-header .tagline {
+    margin: 0;
+    color: rgba(230, 238, 248, 0.8);
+    font-size: 1.05rem;
+}
+
+.disclaimer-content {
+    display: grid;
+    gap: 1.4rem;
+}
+
+.disclaimer-content article {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.01);
+    border-left: 3px solid rgba(122, 162, 255, 0.2);
+    border-radius: 4px;
+}
+
+.disclaimer-content article p {
+    margin: 0;
+    color: rgba(230, 238, 248, 0.92);
+    line-height: 1.75;
+    font-size: 1.025rem;
+}
+
+.closing-article {
+    margin-top: 2rem;
+    background: rgba(122, 162, 255, 0.08);
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem;
+}
+
+.closing-statement {
+    margin: 0 !important;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.closing-statement strong {
+    color: var(--accent);
+}
+
+@media (max-width: 700px) {
+    .ai-disclaimer {
+        padding: 1rem;
+    }
+
+    .disclaimer-header h1 {
+        font-size: 1.45rem;
+    }
+
+    .disclaimer-content article p {
+        font-size: 1rem;
+    }
+}
