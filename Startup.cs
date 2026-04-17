@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using DuckPortfolio.Web.Data;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 
 namespace DuckPortfolio.Web
 {
@@ -28,9 +31,21 @@ namespace DuckPortfolio.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+
+            services.AddAuthorization();
+
+            services.AddControllersWithViews()
+                .AddMicrosoftIdentityUI();
+
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +58,6 @@ namespace DuckPortfolio.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -52,11 +66,16 @@ namespace DuckPortfolio.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+
     }
 }

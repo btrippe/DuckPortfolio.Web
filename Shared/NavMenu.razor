@@ -1,5 +1,13 @@
 <nav class="tree-nav">
     <h2 class="tree-title">Portfolio</h2>
+    <AuthorizeView>
+    <Authorized>
+        <a href="MicrosoftIdentity/Account/SignOut">Sign out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="MicrosoftIdentity/Account/SignIn">Sign in</a>
+    </NotAuthorized>
+</AuthorizeView>
 
     <ul class="tree-list">
         <li class="tree-section">
