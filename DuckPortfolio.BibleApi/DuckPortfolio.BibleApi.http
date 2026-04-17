@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:5007
+@bibleId = 3034
+@reference = JHN.3.16
+
+GET {{baseUrl}}/health
+Accept: application/json
+
+###
+
+GET {{baseUrl}}/api/verses?bibleId={{bibleId}}&reference={{reference}}
+Accept: application/json
+
+###
+
+GET {{baseUrl}}/api/passages?bibleId={{bibleId}}&reference={{reference}}&format=Text&includeHeadings=false&includeNotes=false
+Accept: application/json
+
+###
+
+GET {{baseUrl}}/api/passages?bibleId={{bibleId}}&reference={{reference}}&format=Html&includeHeadings=true&includeNotes=true
+Accept: application/json
+
+###
+
+GET {{baseUrl}}/api/bibles/{{bibleId}}
+Accept: application/json
