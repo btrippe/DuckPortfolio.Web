@@ -103,6 +103,41 @@ public sealed class YouVersionClient
             "YouVersion");
     }
 
+    public async Task<PagedResponse<BibleResponse>> GetBiblesAsync(
+        IReadOnlyList<string> languageRanges,
+        int? licenseId,
+        string? pageSize,
+        IReadOnlyList<string>? fields,
+        string? pageToken,
+        CancellationToken cancellationToken)
+    {
+        EnsureConfigured();
+
+        using var request = new HttpRequestMessage(
+            HttpMethod.Get,
+            BuildBiblesUri(languageRanges, licenseId, pageSize, fields, pageToken));
+
+        request.Headers.Add("X-YVP-App-Key", _options.AppKey);
+
+        using var response = await _httpClient.SendAsync(request, cancellationToken);
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new YouVersionApiException(
+                response.StatusCode,
+                $"YouVersion returned {(int)response.StatusCode}: {responseBody}");
+        }
+
+        using var document = JsonDocument.Parse(responseBody);
+        var root = document.RootElement.Clone();
+
+        return new PagedResponse<BibleResponse>(
+            GetBibleArray(root),
+            GetFirstString(root, "next_page_token"),
+            GetFirstInt32(root, "total_size"));
+    }
+
     private static string BuildPassageUri(
         int bibleId,
         string reference,
@@ -126,6 +161,46 @@ public sealed class YouVersionClient
         }
 
         return $"/v1/bibles/{bibleId}/passages/{Uri.EscapeDataString(reference)}?{string.Join('&', queryParameters)}";
+    }
+
+    private static string BuildBiblesUri(
+        IReadOnlyList<string> languageRanges,
+        int? licenseId,
+        string? pageSize,
+        IReadOnlyList<string>? fields,
+        string? pageToken)
+    {
+        var queryParameters = languageRanges
+            .Where(languageRange => !string.IsNullOrWhiteSpace(languageRange))
+            .Select(languageRange => $"language_ranges[]={Uri.EscapeDataString(languageRange)}")
+            .ToList();
+
+        if (licenseId.HasValue)
+        {
+            queryParameters.Add($"license_id={licenseId.Value}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(pageSize))
+        {
+            queryParameters.Add($"page_size={Uri.EscapeDataString(pageSize)}");
+        }
+
+        if (fields is not null)
+        {
+            foreach (var field in fields.Where(field => !string.IsNullOrWhiteSpace(field)))
+            {
+                queryParameters.Add($"fields[]={Uri.EscapeDataString(field)}");
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(pageToken))
+        {
+            queryParameters.Add($"page_token={Uri.EscapeDataString(pageToken)}");
+        }
+
+        return queryParameters.Count == 0
+            ? "/v1/bibles"
+            : $"/v1/bibles?{string.Join('&', queryParameters)}";
     }
 
     private void EnsureConfigured()
@@ -202,5 +277,40 @@ public sealed class YouVersionClient
             .Select(item => item.GetString())
             .OfType<string>()
             .ToArray();
+    }
+
+    private static IReadOnlyList<BibleResponse> GetBibleArray(JsonElement root)
+    {
+        if (root.ValueKind != JsonValueKind.Object
+            || !root.TryGetProperty("data", out var data)
+            || data.ValueKind != JsonValueKind.Array)
+        {
+            return [];
+        }
+
+        return data
+            .EnumerateArray()
+            .Where(item => item.ValueKind == JsonValueKind.Object)
+            .Select(MapBible)
+            .ToArray();
+    }
+
+    private static BibleResponse MapBible(JsonElement root)
+    {
+        return new BibleResponse(
+            GetFirstInt32(root, "id") ?? 0,
+            GetFirstString(root, "abbreviation"),
+            GetFirstString(root, "localized_abbreviation"),
+            GetFirstString(root, "title"),
+            GetFirstString(root, "localized_title"),
+            GetFirstString(root, "language_tag"),
+            GetFirstString(root, "promotional_content"),
+            GetFirstString(root, "copyright"),
+            GetFirstString(root, "info"),
+            GetFirstString(root, "publisher_url"),
+            GetStringArray(root, "books"),
+            GetFirstString(root, "youversion_deep_link"),
+            GetFirstGuid(root, "organization_id"),
+            "YouVersion");
     }
 }

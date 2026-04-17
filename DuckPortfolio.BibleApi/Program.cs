@@ -148,6 +148,94 @@ app.MapGet("/api/verses", async (
 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
 .ProducesProblem(StatusCodes.Status500InternalServerError);
 
+app.MapGet("/api/bibles", async (
+    string[] languageRanges,
+    int? licenseId,
+    string? pageSize,
+    string[]? fields,
+    string? pageToken,
+    YouVersionClient youVersionClient,
+    CancellationToken cancellationToken) =>
+{
+    if (languageRanges.Length == 0 || languageRanges.Any(string.IsNullOrWhiteSpace))
+    {
+        return Results.BadRequest(new ErrorResponse("languageRanges is required. Example: en"));
+    }
+
+    if (!IsValidPageSize(pageSize, fields))
+    {
+        return Results.BadRequest(new ErrorResponse("pageSize must be between 1 and 100. The special value * is only allowed when fields contains three or fewer values."));
+    }
+
+    try
+    {
+        var bibles = await youVersionClient.GetBiblesAsync(
+            languageRanges,
+            licenseId,
+            pageSize,
+            fields,
+            pageToken,
+            cancellationToken);
+
+        return Results.Ok(bibles);
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.Problem(
+            title: "YouVersion configuration is missing.",
+            detail: ex.Message,
+            statusCode: StatusCodes.Status500InternalServerError);
+    }
+    catch (YouVersionApiException ex)
+    {
+        return Results.Problem(
+            title: "YouVersion request failed.",
+            detail: ex.Message,
+            statusCode: (int)ex.StatusCode);
+    }
+})
+.WithName("GetBibles")
+.WithTags("Bibles")
+.WithSummary("Gets Bible versions available to this app key.")
+.WithDescription("Returns a paginated list of Bible versions. languageRanges is required and can be repeated, for example languageRanges=en. fields can also be repeated, for example fields=id&fields=abbreviation&fields=title.")
+.Produces<PagedResponse<BibleResponse>>(StatusCodes.Status200OK)
+.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+.ProducesProblem(StatusCodes.Status500InternalServerError);
+
+app.MapGet("/api/bibles/recommended", () => Results.Ok(new RecommendedBibleResponse[]
+{
+    new(
+        3034,
+        "BSB",
+        "Berean Standard Bible",
+        "Modern, readable, and already confirmed working as the default."),
+    new(
+        2692,
+        "NASB2020",
+        "New American Standard Bible 2020",
+        "Formal and study-friendly; a good ESV-adjacent option."),
+    new(
+        111,
+        "NIV11",
+        "New International Version 2011",
+        "Widely recognized and approachable for general readers."),
+    new(
+        206,
+        "WEBUS",
+        "World English Bible, American English Edition",
+        "Useful public-friendly fallback with broad coverage."),
+    new(
+        1588,
+        "AMP",
+        "Amplified Bible",
+        "Helpful study option with expanded wording.")
+}))
+.WithName("GetRecommendedBibles")
+.WithTags("Bibles")
+.WithSummary("Gets the curated starter Bible version list.")
+.WithDescription("Returns a stable set of recommended English Bible versions for default app or Unity dropdowns.")
+.Produces<IReadOnlyList<RecommendedBibleResponse>>(StatusCodes.Status200OK);
+
 app.MapGet("/api/bibles/{bibleId:int}", async (
     int bibleId,
     YouVersionClient youVersionClient,
@@ -187,3 +275,19 @@ app.MapGet("/api/bibles/{bibleId:int}", async (
 .ProducesProblem(StatusCodes.Status500InternalServerError);
 
 app.Run();
+
+static bool IsValidPageSize(string? pageSize, string[]? fields)
+{
+    if (string.IsNullOrWhiteSpace(pageSize))
+    {
+        return true;
+    }
+
+    if (pageSize == "*")
+    {
+        return fields is { Length: > 0 and <= 3 };
+    }
+
+    return int.TryParse(pageSize, out var numericPageSize)
+        && numericPageSize is >= 1 and <= 100;
+}

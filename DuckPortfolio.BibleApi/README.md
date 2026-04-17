@@ -25,6 +25,24 @@ BSB metadata:
 GET /api/bibles/3034
 ```
 
+Available English Bible versions. `languageRanges` is required:
+
+```http
+GET /api/bibles?languageRanges=en&pageSize=25
+```
+
+Only the fields needed for a translation picker:
+
+```http
+GET /api/bibles?languageRanges=en&pageSize=*&fields=id&fields=abbreviation&fields=title
+```
+
+Curated starter translation list:
+
+```http
+GET /api/bibles/recommended
+```
+
 John 3:16:
 
 ```http
