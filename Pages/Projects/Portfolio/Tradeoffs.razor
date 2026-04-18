@@ -1,3 +1,52 @@
 @page "/projects/portfolio/tradeoffs"
+@page "/projects/web-development/architecture"
 
-<h1>Portfolio Tradeoffs</h1>
+<div class="project-page page-content">
+	<header class="project-header">
+		<p class="eyebrow">Web Development</p>
+		<h1>Architecture</h1>
+		<p class="tagline">A small solution split into a portfolio web app and a focused API service.</p>
+	</header>
+
+	<section class="project-section">
+		<h2>Solution Shape</h2>
+		<p>
+			The repository contains the Blazor portfolio application and a separate DuckPortfolio.BibleApi project. The web project explicitly excludes the API folder from its compile and content items, keeping the deployed portfolio app separate from the API service while allowing both to live in one workspace.
+		</p>
+		<p>
+			This keeps the website simple while leaving room for backend services that can evolve independently, deploy separately, and expose their own Swagger documentation.
+		</p>
+	</section>
+
+	<section class="project-section">
+		<h2>Deployment Model</h2>
+		<div class="project-grid">
+			<article>
+				<h3>Portfolio App</h3>
+				<p>Blazor Server application hosted through ASP.NET Core with environment-specific configuration and Microsoft Identity integration.</p>
+			</article>
+			<article>
+				<h3>Bible API</h3>
+				<p>Containerized ASP.NET Core Minimal API packaged with a multi-stage Dockerfile and exposed on port 8080.</p>
+			</article>
+			<article>
+				<h3>Azure Container Apps</h3>
+				<p>The API README documents ACR builds, Container Apps image updates, secret configuration, environment variables, and log checks.</p>
+			</article>
+			<article>
+				<h3>Configuration</h3>
+				<p>Local development uses appsettings and environment variables; deployed secrets are referenced through Azure Container Apps secret refs.</p>
+			</article>
+		</div>
+	</section>
+
+	<section class="project-section">
+		<h2>Design Tradeoffs</h2>
+		<ul class="project-list">
+			<li>Blazor Server keeps frontend and backend work in C#, which fits the portfolio's .NET focus.</li>
+			<li>A CDN icon dependency keeps the repo lighter, while text labels preserve usability if icons fail to load.</li>
+			<li>The API service stays separate from the web project so it can be deployed and scaled on its own path.</li>
+			<li>Swagger is enabled for the API because this is a small service where discoverability matters.</li>
+		</ul>
+	</section>
+</div>

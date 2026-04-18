@@ -11,42 +11,42 @@
 
     <ul class="tree-list">
         <li class="tree-section">
-            <button class="section-toggle" @onclick='() => Toggle("portfolio")' aria-expanded='@(IsOpen("portfolio").ToString().ToLowerInvariant())'>
+            <button class="section-toggle" @onclick='() => Toggle("web-development")' aria-expanded='@(IsOpen("web-development").ToString().ToLowerInvariant())'>
                 <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="section-label">Web Development</span>
             </button>
-            <ul class="section-list" style='display:@(IsOpen("portfolio") ? "block" : "none")'>
-                <li><NavLink class="nav-item" href="/projects/portfolio/overview">Overview</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/portfolio/stack">Frontend</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/portfolio/arch">Backend</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/portfolio/tradeoffs">Architecture</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/portfolio/lessons">APIs</NavLink></li>
+            <ul class="section-list" style='display:@(IsOpen("web-development") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/web-development/overview">Overview</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/web-development/frontend">Frontend</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/web-development/backend">Backend</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/web-development/architecture">Architecture</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/web-development/apis">APIs</NavLink></li>
             </ul>
         </li>
 
         <li class="tree-section">
-            <button class="section-toggle" @onclick='() => Toggle("blazor")' aria-expanded='@(IsOpen("blazor").ToString().ToLowerInvariant())'>
+            <button class="section-toggle" @onclick='() => Toggle("game-development")' aria-expanded='@(IsOpen("game-development").ToString().ToLowerInvariant())'>
                 <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="section-label">Game Development</span>
             </button>
-            <ul class="section-list" style='display:@(IsOpen("blazor") ? "block" : "none")'>
-                <li><NavLink class="nav-item" href="/projects/blazor-app/overview">Synopsis</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/blazor-app/ui">Published Games</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/blazor-app/data">Utilized Assets</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/blazor-app/azure">Azure</NavLink></li>
+            <ul class="section-list" style='display:@(IsOpen("game-development") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/game-development/overview">Overview</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/game-development/infiniroller">Infiniroller</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/game-development/versus-with-verses">Versus With Verses</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/game-development/background">Background</NavLink></li>
             </ul>
         </li>
 
         <li class="tree-section">
-            <button class="section-toggle" @onclick='() => Toggle("unity")' aria-expanded='@(IsOpen("unity").ToString().ToLowerInvariant())'>
+            <button class="section-toggle" @onclick='() => Toggle("creative-writing")' aria-expanded='@(IsOpen("creative-writing").ToString().ToLowerInvariant())'>
                 <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="section-label">Creative Writing</span>
             </button>
-            <ul class="section-list" style='display:@(IsOpen("unity") ? "block" : "none")'>
-                <li><NavLink class="nav-item" href="/projects/writing/design">Synopsis</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/writing/design">Flameheart</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/writing/systems">Tristar Chronicles</NavLink></li>
-                <li><NavLink class="nav-item" href="/projects/writing/perf">Not Able</NavLink></li>
+            <ul class="section-list" style='display:@(IsOpen("creative-writing") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/projects/creative-writing/overview">Overview</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/creative-writing/flameheart">Flameheart</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/creative-writing/tristar-chronicles">Tristar Chronicles</NavLink></li>
+                <li><NavLink class="nav-item" href="/projects/creative-writing/not-able">Not Able</NavLink></li>
             </ul>
         </li>
     </ul>

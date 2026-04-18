@@ -1,3 +1,58 @@
 @page "/projects/portfolio/lessons"
+@page "/projects/web-development/apis"
 
-<h1>Portfolio Lessons</h1>
+<div class="project-page page-content">
+	<header class="project-header">
+		<p class="eyebrow">Web Development</p>
+		<h1>APIs</h1>
+		<p class="tagline">REST-style endpoints, Swagger documentation, validation, and external service integration.</p>
+	</header>
+
+	<section class="project-section">
+		<h2>Bible API</h2>
+		<p>
+			The DuckPortfolio Bible API is a small ASP.NET Core Minimal API wrapper around the YouVersion Platform API. It provides local endpoints for passage retrieval, Bible metadata, available translations, and a curated starter list for app or Unity dropdowns.
+		</p>
+	</section>
+
+	<section class="project-section">
+		<h2>Endpoint Surface</h2>
+		<div class="endpoint-list">
+			<article>
+				<code>GET /health</code>
+				<p>Reports whether the API is running.</p>
+			</article>
+			<article>
+				<code>GET /api/passages</code>
+				<p>Gets a normalized passage response from YouVersion with format, headings, and notes options.</p>
+			</article>
+			<article>
+				<code>GET /api/verses</code>
+				<p>Compatibility alias for passage retrieval.</p>
+			</article>
+			<article>
+				<code>GET /api/bibles</code>
+				<p>Returns paginated Bible versions with language range, license, page size, field selection, and page token support.</p>
+			</article>
+			<article>
+				<code>GET /api/bibles/recommended</code>
+				<p>Returns a stable curated list including BSB, NASB2020, NIV11, WEBUS, and AMP.</p>
+			</article>
+			<article>
+				<code>GET /api/bibles/{bibleId}</code>
+				<p>Returns metadata for a specific YouVersion Bible ID.</p>
+			</article>
+		</div>
+	</section>
+
+	<section class="project-section">
+		<h2>API Practices Shown</h2>
+		<ul class="project-list">
+			<li>Swagger metadata with endpoint summaries, descriptions, tags, and response types.</li>
+			<li>Input validation for required references, valid Bible IDs, and bounded page size behavior.</li>
+			<li>External HTTP integration through a typed client with configuration-backed base URL and app key.</li>
+			<li>Clear error responses for missing configuration and downstream YouVersion failures.</li>
+			<li>Docker and Azure Container Apps deployment notes for repeatable operations.</li>
+		</ul>
+	</section>
+</div>
