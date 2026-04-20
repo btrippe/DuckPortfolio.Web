@@ -1,0 +1,11 @@
+@inject NavigationManager Navigation
+
+<p>Redirecting to sign up or sign in...</p>
+
+@code {
+    protected override void OnInitialized()
+    {
+        var returnUrl = Uri.EscapeDataString(Navigation.ToBaseRelativePath(Navigation.Uri));
+        Navigation.NavigateTo($"account/sign-up-sign-in?redirectUri=/{returnUrl}", forceLoad: true);
+    }
+}

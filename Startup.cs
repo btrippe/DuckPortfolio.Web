@@ -12,9 +12,11 @@ using Microsoft.Extensions.Hosting;
 using DuckPortfolio.Web.Data;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace DuckPortfolio.Web
 {
@@ -32,16 +34,18 @@ namespace DuckPortfolio.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+                .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(options =>
+                {
+                    Configuration.Bind("AzureAd", options);
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+                });
 
             services.AddAuthorization();
 
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
 
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
@@ -71,7 +75,27 @@ namespace DuckPortfolio.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/account/sign-up-sign-in", async context =>
+                {
+                    var redirectUri = context.Request.Query["redirectUri"].FirstOrDefault();
+
+                    if (string.IsNullOrWhiteSpace(redirectUri)
+                        || !redirectUri.StartsWith("/", StringComparison.Ordinal)
+                        || redirectUri.StartsWith("//", StringComparison.Ordinal))
+                    {
+                        redirectUri = "/";
+                    }
+
+                    await context.ChallengeAsync(
+                        OpenIdConnectDefaults.AuthenticationScheme,
+                        new AuthenticationProperties
+                        {
+                            RedirectUri = redirectUri
+                        });
+                });
+
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
