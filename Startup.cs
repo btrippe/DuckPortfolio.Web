@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DuckPortfolio.Web.Data;
 using System.IO;
+using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -33,15 +35,34 @@ namespace DuckPortfolio.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var portfolioApiScope = Configuration["PortfolioApi:Scope"];
+
             services
-                .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
                 .AddMicrosoftIdentityWebApp(options =>
                 {
                     Configuration.Bind("AzureAd", options);
                     options.ResponseType = OpenIdConnectResponseType.Code;
-                });
+                    options.SaveTokens = true;
+
+                    if (!string.IsNullOrWhiteSpace(portfolioApiScope)
+                        && !options.Scope.Contains(portfolioApiScope, StringComparer.OrdinalIgnoreCase))
+                    {
+                        options.Scope.Add(portfolioApiScope);
+                    }
+                })
+                .EnableTokenAcquisitionToCallDownstreamApi(
+                    string.IsNullOrWhiteSpace(portfolioApiScope) ? Array.Empty<string>() : new[] { portfolioApiScope })
+                .AddInMemoryTokenCaches();
 
             services.AddAuthorization();
+            services.AddHttpClient();
 
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
@@ -55,6 +76,8 @@ namespace DuckPortfolio.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var portfolioApiScope = Configuration["PortfolioApi:Scope"];
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -78,6 +101,7 @@ namespace DuckPortfolio.Web
                 endpoints.MapGet("/account/sign-up-sign-in", async context =>
                 {
                     var redirectUri = context.Request.Query["redirectUri"].FirstOrDefault();
+                    var prompt = context.Request.Query["prompt"].FirstOrDefault();
 
                     if (string.IsNullOrWhiteSpace(redirectUri)
                         || !redirectUri.StartsWith("/", StringComparison.Ordinal)
@@ -86,12 +110,48 @@ namespace DuckPortfolio.Web
                         redirectUri = "/";
                     }
 
-                    await context.ChallengeAsync(
-                        OpenIdConnectDefaults.AuthenticationScheme,
-                        new AuthenticationProperties
-                        {
-                            RedirectUri = redirectUri
-                        });
+                    var properties = new AuthenticationProperties
+                    {
+                        RedirectUri = redirectUri
+                    };
+
+                    if (!string.IsNullOrWhiteSpace(prompt))
+                    {
+                        properties.Parameters["prompt"] = prompt;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(portfolioApiScope))
+                    {
+                        properties.Parameters["scope"] = $"openid profile offline_access {portfolioApiScope}";
+                    }
+
+                    await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, properties);
+                });
+
+                endpoints.MapGet("/account/consent-api", async context =>
+                {
+                    var redirectUri = context.Request.Query["redirectUri"].FirstOrDefault();
+
+                    if (string.IsNullOrWhiteSpace(redirectUri)
+                        || !redirectUri.StartsWith("/", StringComparison.Ordinal)
+                        || redirectUri.StartsWith("//", StringComparison.Ordinal))
+                    {
+                        redirectUri = "/auth-check";
+                    }
+
+                    var properties = new AuthenticationProperties
+                    {
+                        RedirectUri = redirectUri
+                    };
+
+                    properties.Parameters["prompt"] = "consent";
+
+                    if (!string.IsNullOrWhiteSpace(portfolioApiScope))
+                    {
+                        properties.Parameters["scope"] = $"openid profile offline_access {portfolioApiScope}";
+                    }
+
+                    await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, properties);
                 });
 
                 endpoints.MapControllers();

@@ -1,0 +1,213 @@
+@page "/auth-check"
+@attribute [Authorize]
+@using System.Net
+@using System.Text.Json
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Auth Check</PageTitle>
+
+<h1>Authenticated API Check</h1>
+
+<p>This page asks the web app to call the protected portfolio API as your signed-in Entra user.</p>
+
+@if (_loading)
+{
+    <p><em>Calling the protected API...</em></p>
+}
+else if (!string.IsNullOrWhiteSpace(_error))
+{
+    <div class="alert alert-danger" role="alert">
+        @_error
+    </div>
+
+    <p>
+        If diagnostics mention <code>IDW10502</code> or a consent challenge, use
+        <a href="/account/consent-api?redirectUri=/auth-check">this API consent link</a>
+        to complete the full-page Entra prompt and then return here.
+    </p>
+
+    @if (_diagnostics is not null)
+    {
+        <h2>Diagnostics</h2>
+        <pre>@_diagnostics</pre>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(_responsePreview))
+    {
+        <h2>Response Preview</h2>
+        <pre>@_responsePreview</pre>
+    }
+}
+else if (_response is not null)
+{
+    <div class="alert alert-success" role="alert">
+        The signed-in call to <code>/api/me</code> succeeded.
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Authenticated</dt>
+        <dd class="col-sm-9">@_response.IsAuthenticated</dd>
+
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@(_response.Name ?? "(not provided)")</dd>
+
+        <dt class="col-sm-3">Subject</dt>
+        <dd class="col-sm-9"><code>@(_response.Subject ?? "(not provided)")</code></dd>
+
+        <dt class="col-sm-3">Object ID</dt>
+        <dd class="col-sm-9"><code>@(_response.ObjectId ?? "(not provided)")</code></dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@(_response.Email ?? "(not provided)")</dd>
+    </dl>
+
+    <h2>Claims</h2>
+
+    @if (_response.Claims is { Count: > 0 })
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in _response.Claims)
+                {
+                    <tr>
+                        <td><code>@claim.Type</code></td>
+                        <td><code>@claim.Value</code></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No claims were returned.</p>
+    }
+}
+
+@code {
+    private bool _loading = true;
+    private string? _error;
+    private MeResponse? _response;
+    private string? _responsePreview;
+    private string? _diagnostics;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _diagnostics = await LoadDiagnosticsAsync();
+            var result = await FetchFromBrowserAsync("/api/auth-check/me");
+
+            if (result.Status == (int)HttpStatusCode.Unauthorized)
+            {
+                _error = "You are not signed in to the web app.";
+                return;
+            }
+
+            if (!result.Ok)
+            {
+                _error = $"Auth check failed with HTTP {result.Status}.";
+                _responsePreview = BuildPreview(result.Text, result.ContentType);
+                return;
+            }
+
+            if (LooksLikeHtml(result.Text))
+            {
+                _error = "The auth check returned HTML instead of JSON. This usually means a redirect or error page was returned somewhere in the chain.";
+                _responsePreview = BuildPreview(result.Text, result.ContentType);
+                return;
+            }
+
+            _response = JsonSerializer.Deserialize<MeResponse>(
+                result.Text,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            if (_response is null)
+            {
+                _error = "The auth check returned an empty JSON payload.";
+                _responsePreview = BuildPreview(result.Text, result.ContentType);
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task<string?> LoadDiagnosticsAsync()
+    {
+        try
+        {
+            var diagnosticsResult = await FetchFromBrowserAsync("/api/auth-check/diagnostics");
+
+            return diagnosticsResult.Ok
+                ? BuildPreview(diagnosticsResult.Text, diagnosticsResult.ContentType)
+                : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private async Task<BrowserFetchResult> FetchFromBrowserAsync(string relativeUrl)
+    {
+        var absoluteUrl = Navigation.ToAbsoluteUri(relativeUrl).ToString();
+
+        return await JS.InvokeAsync<BrowserFetchResult>("authCheck.fetch", absoluteUrl);
+    }
+
+    private static bool LooksLikeHtml(string responseText)
+    {
+        return responseText.TrimStart().StartsWith("<", StringComparison.Ordinal);
+    }
+
+    private static string BuildPreview(string responseText, string? contentType)
+    {
+        const int maxLength = 1200;
+        var preview = responseText.Length <= maxLength
+            ? responseText
+            : responseText[..maxLength] + "...";
+
+        return string.IsNullOrWhiteSpace(contentType)
+            ? preview
+            : $"Content-Type: {contentType}{Environment.NewLine}{Environment.NewLine}{preview}";
+    }
+
+    private sealed class MeResponse
+    {
+        public bool IsAuthenticated { get; set; }
+        public string? Name { get; set; }
+        public string? Subject { get; set; }
+        public string? ObjectId { get; set; }
+        public string? Email { get; set; }
+        public List<ClaimValue> Claims { get; set; } = new();
+    }
+
+    private sealed class ClaimValue
+    {
+        public string? Type { get; set; }
+        public string? Value { get; set; }
+    }
+
+    private sealed class BrowserFetchResult
+    {
+        public bool Ok { get; set; }
+        public int Status { get; set; }
+        public string? ContentType { get; set; }
+        public string Text { get; set; } = string.Empty;
+    }
+}
