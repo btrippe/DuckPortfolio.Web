@@ -1,0 +1,77 @@
+@page "/pivot/privacy"
+@inject NavigationManager Navigation
+
+<PageTitle>Pivot Privacy | Brandon Trippe</PageTitle>
+<HeadContent>
+    <meta name="description" content="How Pivot keeps extension settings, browsing choices, and optional journal entries local to your browser." />
+    <link rel="canonical" href="@CanonicalUrl" />
+</HeadContent>
+
+<article class="pivot-doc page-content">
+    <nav class="pivot-doc-nav" aria-label="Pivot documentation">
+        <a class="pivot-mark" href="/">Pivot</a>
+        <div>
+            <a aria-current="page" href="/pivot/privacy">Privacy</a>
+            <a href="/pivot/support">Support</a>
+            <a href="/">Portfolio home</a>
+        </div>
+    </nav>
+
+    <header class="pivot-doc-header">
+        <p class="eyebrow">Pivot documentation</p>
+        <h1>Privacy</h1>
+        <p class="lede">Pivot is designed to interrupt a browsing choice without turning that moment into an account, advertising profile, or remote behavior record.</p>
+        <p class="updated">Last updated September 21, 2026</p>
+    </header>
+
+    <section aria-labelledby="privacy-overview">
+        <h2 id="privacy-overview">The short version</h2>
+        <p>Pivot has no account requirement, behavioral analytics, or advertising. The browser extension and Pivot website use separate storage that stays in the browser profile where it was created.</p>
+    </section>
+
+    <section aria-labelledby="privacy-extension">
+        <h2 id="privacy-extension">Browser extension data</h2>
+        <p>The extension stores its enabled state, category preferences, custom site rules, and optional journal in WebExtension storage in your browser profile. A journal entry can include a normalized hostname, grounding path, decision, rationale, reflection, and timestamp. You can turn off hostname retention.</p>
+        <p>Pivot never durably stores page content, URL paths, queries, fragments, or complete destination URLs. The full destination exists only long enough in extension memory to complete the choice you make.</p>
+    </section>
+
+    <section aria-labelledby="privacy-filters">
+        <h2 id="privacy-filters">Local interception and filters</h2>
+        <p>Navigation interception and filter matching happen inside the extension without a Pivot network request. Built-in adult-site and adult-generative-AI collections are packaged as shortened SHA-256 fingerprints instead of readable hostname lists.</p>
+        <p>Those fingerprints provide practical obfuscation, not encryption. Someone who already has candidate domain names can hash and compare them. Custom sites remain readable so you can review and edit your own list.</p>
+    </section>
+
+    <section aria-labelledby="privacy-website">
+        <h2 id="privacy-website">Pivot website data</h2>
+        <p>The Pivot website has a separate local vault in IndexedDB for its settings and completed interruption events. It is not synchronized with the extension journal or uploaded to a Pivot account. Website storage created during private browsing may be temporary and should not be relied on for durable history.</p>
+    </section>
+
+    <section aria-labelledby="privacy-encryption">
+        <h2 id="privacy-encryption">Optional journal encryption</h2>
+        <p>You can protect a Pivot journal with passphrase-based AES-GCM encryption. Pivot cannot recover a forgotten passphrase. An encrypted export contains the information needed to unlock it with the passphrase; an unencrypted export contains readable journal entries and should be handled accordingly.</p>
+    </section>
+
+    <section aria-labelledby="privacy-controls">
+        <h2 id="privacy-controls">Your controls</h2>
+        <ul>
+            <li>Export or import your local journal and extension settings.</li>
+            <li>Delete the local journal with an explicit confirmation.</li>
+            <li>Clear the website vault through your browser's site-data controls.</li>
+            <li>Remove extension data by uninstalling Pivot or clearing its storage.</li>
+        </ul>
+    </section>
+
+    <section aria-labelledby="privacy-network">
+        <h2 id="privacy-network">Hosting and network records</h2>
+        <p>Visiting these public documentation pages makes an ordinary web request. The portfolio host, content-delivery provider, internet provider, browser, DNS provider, or an external site you choose to open may keep ordinary infrastructure logs under their own policies. Pivot does not add analytics, advertising pixels, session replay, fingerprinting, or support widgets to these pages.</p>
+    </section>
+
+    <footer class="pivot-doc-footer">
+        <a href="/pivot/support">Get Pivot support</a>
+        <a href="/">Return to the portfolio</a>
+    </footer>
+</article>
+
+@code {
+    private string CanonicalUrl => Navigation.ToAbsoluteUri("pivot/privacy").GetLeftPart(UriPartial.Path);
+}

@@ -1,0 +1,97 @@
+@page "/pivot/support"
+@inject NavigationManager Navigation
+
+<PageTitle>Pivot Support | Brandon Trippe</PageTitle>
+<HeadContent>
+    <meta name="description" content="Set up Pivot in regular and private browsing, run a safe extension check, and contact Pivot support." />
+    <link rel="canonical" href="@CanonicalUrl" />
+</HeadContent>
+
+<article class="pivot-doc page-content">
+    <nav class="pivot-doc-nav" aria-label="Pivot documentation">
+        <a class="pivot-mark" href="/">Pivot</a>
+        <div>
+            <a href="/pivot/privacy">Privacy</a>
+            <a aria-current="page" href="/pivot/support">Support</a>
+            <a href="/">Portfolio home</a>
+        </div>
+    </nav>
+
+    <header class="pivot-doc-header">
+        <p class="eyebrow">Pivot documentation</p>
+        <h1>Support</h1>
+        <p class="lede">Protection is enabled by default when Pivot is installed. Private browsing needs a separate permission controlled by each browser.</p>
+    </header>
+
+    <section class="diagnostic-card" aria-labelledby="safe-check">
+        <div>
+            <p class="eyebrow">Start here</p>
+            <h2 id="safe-check">Run a safe check</h2>
+            <p>Open the reserved address below. It cannot resolve to a real website. When Pivot is active, the extension replaces it with a local confirmation page and creates no Pivot journal entry.</p>
+        </div>
+        <a class="primary-action" href="https://pivot-check.invalid/">Test Pivot safely</a>
+        <code>pivot-check.invalid</code>
+    </section>
+
+    <section aria-labelledby="private-access">
+        <h2 id="private-access">Allow Pivot in private browsing</h2>
+        <p>Browsers do not let extensions observe private tabs until you grant permission. Use the instructions for your browser, then run the safe check again inside a private window.</p>
+
+        <div class="browser-list">
+            <article>
+                <h3>Chrome</h3>
+                <p><code>chrome://extensions</code> &gt; Pivot <strong>Details</strong> &gt; enable <strong>Allow in Incognito</strong>.</p>
+            </article>
+            <article>
+                <h3>Microsoft Edge</h3>
+                <p><code>edge://extensions</code> &gt; Pivot <strong>Details</strong> &gt; enable <strong>Allow in InPrivate</strong>.</p>
+            </article>
+            <article>
+                <h3>Firefox desktop</h3>
+                <p><strong>Add-ons and themes</strong> &gt; <strong>Extensions</strong> &gt; <strong>Pivot</strong> &gt; <strong>Run in Private Windows</strong> &gt; <strong>Allow</strong>.</p>
+            </article>
+            <article>
+                <h3>Firefox for Android</h3>
+                <p>Open the browser menu &gt; <strong>Extensions</strong> &gt; <strong>Pivot</strong> &gt; enable <strong>Run in private browsing</strong>.</p>
+            </article>
+            <article>
+                <h3>Safari on macOS</h3>
+                <p><strong>Safari</strong> &gt; <strong>Settings</strong> &gt; <strong>Extensions</strong> &gt; <strong>Pivot</strong>. Enable Pivot, set <strong>All Websites</strong> to <strong>Allow</strong>, and enable <strong>Allow in Private Browsing</strong>.</p>
+            </article>
+            <article>
+                <h3>Safari on iPhone or iPad</h3>
+                <p><strong>Settings</strong> &gt; <strong>Apps</strong> &gt; <strong>Safari</strong> &gt; <strong>Extensions</strong> &gt; <strong>Pivot</strong>. Enable the extension and relevant profiles, then set <strong>All Websites</strong> to <strong>Allow</strong>, not <strong>Ask</strong>.</p>
+            </article>
+        </div>
+    </section>
+
+    <section aria-labelledby="recovery">
+        <h2 id="recovery">If Pivot does not open</h2>
+        <ol>
+            <li>Open Pivot from the browser toolbar and confirm protection is enabled and not paused.</li>
+            <li>Run <code>pivot-check.invalid</code> in a regular window. If that works, recheck the separate private-browsing permission.</li>
+            <li>Confirm Pivot has access to all websites where the browser exposes that setting.</li>
+            <li>Reload or update the extension after installing a new build, then retry the safe check.</li>
+            <li>If permission was revoked, grant it again from the browser's extension details page.</li>
+        </ol>
+    </section>
+
+    <section class="contact-card" aria-labelledby="contact-support">
+        <div>
+            <p class="eyebrow">Still need help?</p>
+            <h2 id="contact-support">Contact Pivot support</h2>
+            <p>This opens your email application with a generic subject. You do not need a portfolio account.</p>
+        </div>
+        <a class="primary-action" href="mailto:bctrippe@gmail.com?subject=Pivot%20support">Email Pivot support</a>
+        <p class="warning"><strong>Do not include browsing history, reflections, or complete destination URLs.</strong></p>
+    </section>
+
+    <footer class="pivot-doc-footer">
+        <a href="/pivot/privacy">Read the Pivot privacy notice</a>
+        <a href="/">Return to the portfolio</a>
+    </footer>
+</article>
+
+@code {
+    private string CanonicalUrl => Navigation.ToAbsoluteUri("pivot/support").GetLeftPart(UriPartial.Path);
+}
