@@ -1,5 +1,5 @@
 @page "/pivot/privacy"
-@inject NavigationManager Navigation
+@inject IConfiguration Configuration
 
 <PageTitle>Pivot Privacy | Brandon Trippe</PageTitle>
 <HeadContent>
@@ -73,5 +73,5 @@
 </article>
 
 @code {
-    private string CanonicalUrl => Navigation.ToAbsoluteUri("pivot/privacy").GetLeftPart(UriPartial.Path);
+    private string CanonicalUrl => $"{Configuration["PublicOrigin"]!.TrimEnd('/')}/pivot/privacy";
 }
