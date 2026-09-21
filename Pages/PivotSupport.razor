@@ -1,5 +1,5 @@
 @page "/pivot/support"
-@inject NavigationManager Navigation
+@inject IConfiguration Configuration
 
 <PageTitle>Pivot Support | Brandon Trippe</PageTitle>
 <HeadContent>
@@ -93,5 +93,5 @@
 </article>
 
 @code {
-    private string CanonicalUrl => Navigation.ToAbsoluteUri("pivot/support").GetLeftPart(UriPartial.Path);
+    private string CanonicalUrl => $"{Configuration["PublicOrigin"]!.TrimEnd('/')}/pivot/support";
 }
