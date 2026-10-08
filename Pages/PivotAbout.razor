@@ -1,0 +1,55 @@
+@page "/pivot/about"
+@inject IConfiguration Configuration
+
+<PageTitle>About Pivot and its creator | Brandon Trippe</PageTitle>
+<HeadContent>
+    <meta name="description" content="Learn why Brandon Trippe created Pivot and where to find his broader independent work." />
+    <link rel="canonical" href="@CanonicalUrl" />
+</HeadContent>
+
+<article class="pivot-doc page-content">
+    <nav class="pivot-doc-nav" aria-label="Pivot documentation">
+        <a class="pivot-mark" href="/">Pivot</a>
+        <div>
+            <a aria-current="page" href="/pivot/about">About</a>
+            <a href="/pivot/privacy">Privacy</a>
+            <a href="/pivot/support">Support</a>
+            <a href="/">Portfolio home</a>
+        </div>
+    </nav>
+
+    <header class="pivot-doc-header">
+        <p class="eyebrow">About Pivot</p>
+        <h1>About Pivot and its creator</h1>
+        <p class="lede">Pivot is an independent, local-first project designed to create a thoughtful pause before an unwanted browsing choice.</p>
+    </header>
+
+    <section aria-labelledby="about-project">
+        <h2 id="about-project">Why Pivot exists</h2>
+        <p>Pivot offers a brief interruption and a chance to choose what happens next. Its core protections work locally, without requiring an account, advertising profile, or paid plan.</p>
+        <p>Using Pivot does not require a purchase, subscription, donation, or Patreon membership.</p>
+    </section>
+
+    <section aria-labelledby="about-creator">
+        <h2 id="about-creator">About the creator</h2>
+        <p>Pivot was created by Brandon Trippe, a software engineer who builds independent software and creative projects under the name Rubber Duck Development.</p>
+        <p>You can learn more about Brandon's work throughout this portfolio or review Pivot's public privacy and support documentation.</p>
+    </section>
+
+    <section class="creator-presence" aria-labelledby="creator-elsewhere">
+        <h2 id="creator-elsewhere">Elsewhere</h2>
+        <p>Rubber Duck Development also has a presence on Patreon for Brandon's broader independent work.</p>
+        <p class="independence-note"><strong>Patreon is separate from Pivot.</strong> Following or supporting Brandon there is entirely optional and does not unlock Pivot features, content, access, or services. Pivot works the same either way.</p>
+        <a class="external-profile" href="https://www.patreon.com/c/RubberDuckDevelopment" target="_blank" rel="noopener noreferrer">Rubber Duck Development on Patreon <span aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a>
+    </section>
+
+    <footer class="pivot-doc-footer">
+        <a href="/pivot/privacy">Read the privacy notice</a>
+        <a href="/pivot/support">Get Pivot support</a>
+        <a href="/">Return to the portfolio</a>
+    </footer>
+</article>
+
+@code {
+    private string CanonicalUrl => $"{Configuration["PublicOrigin"]!.TrimEnd('/')}/pivot/about";
+}

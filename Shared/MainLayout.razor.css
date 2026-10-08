@@ -48,12 +48,14 @@
 
 .terminal-nav {
     border-right: 1px solid rgba(255,255,255,0.06);
+    min-width: 0;
     min-height: 100%;
     background: #071018; /* subtlely darker than main */
     padding-top: 1rem;
 }
 
 .terminal-main {
+    min-width: 0;
     padding: 2rem; /* more breathing room */
     background: #0e1418; /* slightly lighter than nav */
     color: #e9eef6;
