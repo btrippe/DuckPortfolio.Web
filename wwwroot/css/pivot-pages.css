@@ -198,6 +198,25 @@
     color: #fff3e2;
 }
 
+.pivot-doc .creator-presence {
+    border-left-color: rgba(121, 215, 195, 0.5);
+}
+
+.pivot-doc .independence-note {
+    max-width: 70ch;
+    color: rgba(230, 238, 248, 0.78);
+    font-size: 0.94rem;
+}
+
+.pivot-doc .external-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0.45rem 0;
+    font-weight: 600;
+}
+
 .pivot-doc-footer {
     display: flex;
     flex-wrap: wrap;
