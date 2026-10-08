@@ -3,6 +3,18 @@
 
     <ul class="tree-list">
         <li class="tree-section">
+            <button class="section-toggle" @onclick='() => Toggle("pivot")' aria-expanded='@(IsOpen("pivot").ToString().ToLowerInvariant())'>
+                <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="section-label">Pivot</span>
+            </button>
+            <ul class="section-list" style='display:@(IsOpen("pivot") ? "block" : "none")'>
+                <li><NavLink class="nav-item" href="/pivot/about">About</NavLink></li>
+                <li><NavLink class="nav-item" href="/pivot/privacy">Privacy</NavLink></li>
+                <li><NavLink class="nav-item" href="/pivot/support">Support</NavLink></li>
+            </ul>
+        </li>
+
+        <li class="tree-section">
             <button class="section-toggle" @onclick='() => Toggle("web-development")' aria-expanded='@(IsOpen("web-development").ToString().ToLowerInvariant())'>
                 <svg class="chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="section-label">Web Development</span>
